@@ -35,6 +35,25 @@ describe.skip("drivers: azure-storage-blob", () => {
       accountName: "local",
     }),
     additionalTests(ctx) {
+      it("throws when no account name", async () => {
+        const badDriver = driver({
+          connectionString: "UseDevelopmentStorage=true",
+          accountName: "",
+        });
+        expect(() => {
+          // trigger initialisation of the client
+          badDriver.getInstance?.();
+        }).toThrow("[unstorage] [azure-storage-blob] accountName");
+      });
+
+      it("native meta", async () => {
+        await ctx.storage.setItem("foo:bar", "test_data");
+        const meta = await ctx.storage.getMeta("foo:bar");
+        // undefined because we didn't access it yet
+        expect(meta.atime).toBe(undefined);
+        expect(meta.mtime?.constructor.name).toBe("Date");
+      });
+
       it("natively supports depth in getKeys", async () => {
         const spy = vi.spyOn(ContainerClient.prototype, "listBlobsByHierarchy");
 
