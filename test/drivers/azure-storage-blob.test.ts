@@ -45,7 +45,7 @@ describe.skip("drivers: azure-storage-blob", () => {
 
         expect(
           (
-            await ctx.driver.getKeys('', {
+            await ctx.driver.getKeys("", {
               maxDepth: 1,
             })
           ).sort()
@@ -68,7 +68,7 @@ describe.skip("drivers: azure-storage-blob", () => {
 
         expect(
           (
-            await ctx.driver.getKeys('', {
+            await ctx.driver.getKeys("", {
               maxDepth: 2,
             })
           ).sort()
